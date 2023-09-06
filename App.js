@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import SectionListExample from "./src/screens/SectionListExample";
 
 //FlatList
 // simple list 
@@ -35,7 +36,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {listDays}
+      <SectionListExample/>
       <StatusBar style="auto" />
     </View>
   );
@@ -44,7 +45,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
