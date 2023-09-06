@@ -4,6 +4,8 @@ import Greetings from './src/screens/Greetings';
 import Card from './src/components/Card';
 import FlashSale from './src/screens/FlashSale';
 import Counter from './src/screens/Counter';
+import ExampleList from './src/components/ExampleList';
+import FlatListExample from './src/components/FlatListExample';
 
 export default function App() {
   return (
@@ -11,7 +13,9 @@ export default function App() {
       {/* <Greetings /> */}
       {/* <Card/> */}
       {/* <FlashSale/> */}
-      <Counter/>
+      {/* <Counter/> */}
+      
+      <FlatListExample/>
       <StatusBar style="auto" />
     </View>
   );
@@ -20,5 +24,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // alignItems:"center",
+    // justifyContent: "center",
   },
 });
