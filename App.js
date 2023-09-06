@@ -1,23 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Greetings from './src/screens/Greetings';
-import Card from './src/components/Card';
-import FlashSale from './src/screens/FlashSale';
-import Counter from './src/screens/Counter';
-import ExampleList from './src/components/ExampleList';
-import FlatListExample from './src/components/FlatListExample';
-import SectionListExample from './src/components/SectionListExample';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+
+//FlatList
+// simple list 
+// Perform more fast
+//  [senin, selasa, rabu]
+//Section 
+// goruped/sectioned list
+// more complex 
+
+// data = [
+    // {
+    //   productName : 
+    //   price : 
+    //   category : 
+    // }
+// ]
+
+// data = [
+//   {
+//     category : 'makanan',
+//     data : [
+//       {
+
+//       }
+//     ]
+//   }
+// ]
 
 export default function App() {
+  const days = ["Sunday", "Monday"];
+
+  const listDays = days.map((day) => <Text>{day}</Text>);
+
   return (
-    <View style={styles.container}>      
-      {/* <Greetings /> */}
-      {/* <Card/> */}
-      {/* <FlashSale/> */}
-      {/* <Counter/> */}
-      
-      {/* <FlatListExample/> */}
-      <SectionListExample/>
+    <View style={styles.container}>
+      {listDays}
       <StatusBar style="auto" />
     </View>
   );
@@ -28,6 +46,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-
   },
 });
