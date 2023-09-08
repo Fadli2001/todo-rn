@@ -67,8 +67,7 @@ export default function ToDoScreen() {
         >
           Todos
         </Text>
-      </View>
-
+      </View>          
       {/* form add list  */}
       <View style={styles.formSection}>
         <TextInput
