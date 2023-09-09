@@ -1,5 +1,6 @@
-import { StyleSheet, FlatList,Text } from "react-native";
+import { StyleSheet, FlatList, View } from "react-native";
 import Todo from "./Todo";
+import EmptyListView from "./EmptyListView";
 
 export default function ToDoList(props) {
   const { todos, toggleComplete, deleteTodo, type } = props;
@@ -16,21 +17,22 @@ export default function ToDoList(props) {
   };
 
   return (
-    <FlatList
-      data={getVisisibleTodos()}
-      renderItem={({ item }) => {
-        console.log("Test Todos",item.title, item.complete);
-        return (
-          <Todo
-            todo={item}
-            toggleComplete={toggleComplete}
-            deleteTodo={deleteTodo}
-          />
-        )
-      }}
-      keyExtractor={(item) => item.id.toString()}
-      ListEmptyComponent={() => <Text>Data Kosong</Text>}
-    />
+    <View>
+      <FlatList
+        data={getVisisibleTodos()}
+        renderItem={({ item }) => {
+          return (
+            <Todo
+              todo={item}
+              toggleComplete={toggleComplete}
+              deleteTodo={deleteTodo}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id.toString()}
+        ListEmptyComponent={() => <EmptyListView todoType={type} />}
+      />
+    </View>
   );
 }
 

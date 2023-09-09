@@ -1,5 +1,6 @@
 export default PATH ={
     SPLASH : 'SPLASH',
-    TODO_LIST : 'LOGIN'
+    TODO_LIST : 'TODO_LIST',
+    LOGIN :'LOGIN'
 }
 

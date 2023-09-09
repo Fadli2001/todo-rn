@@ -7,7 +7,7 @@ export default function SplashScreen({navigation}) {
 
     React.useEffect( () => {
         setTimeout(() => {
-            navigation.navigate(PATH.TODO_LIST)
+            navigation.navigate(PATH.LOGIN)
         }, 3000);
     },[])
 

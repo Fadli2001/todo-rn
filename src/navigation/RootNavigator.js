@@ -1,10 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import SplashScreen from "../screens/SpalshScreen/SplashScreen";
-import ToDoList from "../screens/TodoScreen/components/ToDoList";
+import { View } from "react-native";
 
 import PATH from "./NavigationPath";
 import ToDoScreen from "../screens/TodoScreen/ToDoScreen";
+import LoginScreen from "../screens/LoginScreen/LoginScreen";
+import PopupMenu from "../screens/TodoScreen/components/PopupMenu";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,10 +20,33 @@ const AppNavigation = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name={PATH.TODO_LIST}
-          component={ToDoScreen}
+          name={PATH.LOGIN}
+          component={LoginScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Group
+          screenOptions={({ navigation }) => {
+            return {
+              headerStyle: {
+                backgroundColor: "#233D90",
+              },
+              headerTitleStyle: {
+                fontWeight: "bold",
+                color: "white",
+                fontSize: 30,
+              },
+              headerShadowVisible: false,
+              headerRight: () => <PopupMenu navigation={navigation} />,
+              headerLeft: () => <View />              
+            };
+          }}
+        >
+          <Stack.Screen
+            name={PATH.TODO_LIST}
+            component={ToDoScreen}
+            options={{ title: "Todos" }}            
+          />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

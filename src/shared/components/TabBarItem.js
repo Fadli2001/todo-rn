@@ -2,13 +2,13 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 
 export default function TabBarItem(props) {
-  const { title, setType, type, selected } = props;
+  const { title, setType, type } = props;
   return (
     <TouchableOpacity
       onPress={setType}
-      style={[styles.container, styles.border, selected ? styles.selected : null]}
+      style={[styles.container, styles.border, type === title ? styles.selected : null]}
     >
-      <Text style={[styles.text, type === title ? styles.bold : null]}>
+      <Text style={[styles.text, type === title ? styles.textActive : null]}>
         {title}
       </Text>
     </TouchableOpacity>
@@ -16,9 +16,8 @@ export default function TabBarItem(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
+  container: {    
+    flex: 1,    
     alignItems: "center",
     paddingVertical: 15,
   },
@@ -26,14 +25,9 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 17,
   },
-  bold: {
-    fontWeight: "bold",
-  },
-  selected: {
-    backgroundColor: "#f0f0f0",
-  },
-  border: {
-    borderWidth: 1,
-    borderColor: "#DDDDDD",
+  textActive: {
+    fontWeight: "900",
+    color : 'black',
+    fontSize : 17.5 
   },
 });

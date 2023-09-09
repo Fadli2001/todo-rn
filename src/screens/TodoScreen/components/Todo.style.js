@@ -4,21 +4,20 @@ export default todoStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-
-    backgroundColor: "#FFFFFFF",
-    borderWidth: 1,
-    borderColor: "black",
+    borderRadius: 10,
+    marginBottom : 6,
     paddingHorizontal: 15,
     paddingVertical: 7,
+    backgroundColor: "white",
 
     // shadow
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    shadowColor: "black",
     shadowOffset: {
-      width: 3,
-      height: 3,
+      width: 0,
+      height: 0.7,
     },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
   },
   buttonWrapper: {
     flex: 1,

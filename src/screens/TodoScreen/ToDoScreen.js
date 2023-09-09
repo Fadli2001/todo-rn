@@ -1,10 +1,12 @@
-import { Text, View, TextInput, Button } from "react-native";
+import { Text, View, TextInput, Button, Alert } from "react-native";
 import { useState } from "react";
 import React from "react";
 
 import styles from "./ToDoScreen.style";
 import TabBar from "./components/TabBar";
 import ToDoList from "./components/ToDoList";
+import Input from "../../shared/components/Input";
+import SubmitButton from "../../shared/components/SubmitButton";
 
 const todoDummy = [
   { id: 1, title: "Olahraga", complete: true },
@@ -17,14 +19,13 @@ export default function ToDoScreen() {
     type: "All",
     todos: [...todoDummy],
     inputValue: "",
-  });
+  });  
 
   const setType = (type) => {
     setAppState({ ...appState, type });
   };
 
   const toggleComplete = (todoIndex) => {
-    console.log("Test Index", todoIndex);
     const { todos } = appState;
     todos.forEach((todo) => {
       if (todo.id === todoIndex) {
@@ -41,47 +42,59 @@ export default function ToDoScreen() {
     setAppState({ ...appState, todos: newTodos });
   };
 
-  const submitTodo = () => {    
-    const payload = {
-      title: appState.inputValue,
-      complete: false,
-      id: appState.todos.length + 1,
-    };    
-    const todos = [...appState.todos, payload];
-    setAppState({ ...appState, todos, inputValue: "" });
+  const submitTodo = () => {
+    const trimInput = appState.inputValue.trim();
+    if (trimInput === "" || trimInput.length < 4) {
+      Alert.alert("Invalid Input", "Please Correct input");
+    } else {
+      const payload = {
+        title: appState.inputValue,
+        complete: false,
+        id: appState.todos.length + 1,
+      };
+      const todos = [...appState.todos, payload];
+      setAppState({ ...appState, todos, inputValue: "" });
+    }
   };
 
   const onChangeValue = (val) => {
-    setAppState({ ...appState, inputValue : val });
+    setAppState({ ...appState, inputValue: val });
   };
 
   return (
     <View style={styles.container}>
       {/* heading  */}
-      <View style={styles.headerSection}>
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 52,
-          }}
-        >
-          Todos
-        </Text>
-      </View>          
+      {/* <View style={styles.headerSection}>
+        <Heading />
+      </View> */}
       {/* form add list  */}
       <View style={styles.formSection}>
-        <TextInput
-          placeholder="New Todo"
-          value={appState.inputValue}
-          onChangeText={onChangeValue}
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <View
+            style={{
+              flex: 3,
+              paddingHorizontal: 5,
+            }}
+          >
+            <Input value={appState.inputValue} onChangeValue={onChangeValue} />
+          </View>
+          <View
+            style={{
+              flex: 2,
+            }}
+          >
+            <SubmitButton title={"Tambah"} onSubmit={submitTodo} />
+          </View>
+        </View>
+        <Text
           style={{
-            padding: 10,
-            borderWidth: 1,
-            borderColor: "black",
-            marginBottom: 5,
+            fontWeight: 200,
+            marginLeft: 10,
+            marginTop: 5,
           }}
-        />
-        <Button title="Submit" onPress={submitTodo} />
+        >
+          Input minimal 4 karakter ya
+        </Text>
       </View>
 
       {/* list  */}
@@ -90,7 +103,7 @@ export default function ToDoScreen() {
           todos={appState.todos}
           deleteTodo={deleteTodo}
           toggleComplete={toggleComplete}
-          type={appState.type}
+          type={appState.type}          
         />
       </View>
 
