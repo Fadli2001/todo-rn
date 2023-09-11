@@ -7,6 +7,9 @@ import TabBar from "./components/TabBar";
 import ToDoList from "./components/ToDoList";
 import Input from "../../shared/components/Input";
 import SubmitButton from "../../shared/components/SubmitButton";
+import { useDispatch, useSelector } from "react-redux";
+
+import { addTodo, setTodoName, showLoading } from "../../store/todo/ToDoAction";
 
 const todoDummy = [
   { id: 1, title: "Olahraga", complete: true },
@@ -15,59 +18,61 @@ const todoDummy = [
 ];
 
 export default function ToDoScreen() {
-  const [appState, setAppState] = useState({
-    type: "All",
-    todos: [...todoDummy],
-    inputValue: "",
-  });  
-
-  const setType = (type) => {
-    setAppState({ ...appState, type });
-  };
-
-  const toggleComplete = (todoIndex) => {
-    const { todos } = appState;
-    todos.forEach((todo) => {
-      if (todo.id === todoIndex) {
-        todo.complete = !todo.complete;
+  const dispatch = useDispatch();
+  const currId = useSelector((state) => {
+    let maxId = 0;
+    state.ToDoReducer.todos.forEach((todo) => {
+      if (todo.id > maxId) {
+        maxId = todo.id;
       }
     });
+    return maxId;
+  });
+  const todoName = useSelector((state) => state.ToDoReducer.newTodoName);
+  //   setAppState({ ...appState, type });
+  // };
 
-    setAppState({ ...appState, todos });
-  };
+  // const toggleComplete = (todoIndex) => {
+  //   const { todos } = appState;
+  //   todos.forEach((todo) => {
+  //     if (todo.id === todoIndex) {
+  //       todo.complete = !todo.complete;
+  //     }
+  //   });
 
-  const deleteTodo = (todoIndex) => {
-    const { todos: currentTodos } = appState;
-    const newTodos = currentTodos.filter((todo) => todo.id !== todoIndex);
-    setAppState({ ...appState, todos: newTodos });
-  };
+  //   setAppState({ ...appState, todos });
+  // };
+
+  // const deleteTodo = (todoIndex) => {
+  //   const { todos: currentTodos } = appState;
+  //   const newTodos = currentTodos.filter((todo) => todo.id !== todoIndex);
+  //   setAppState({ ...appState, todos: newTodos });
+  // };
 
   const submitTodo = () => {
-    const trimInput = appState.inputValue.trim();
+    const trimInput = todoName;
     if (trimInput === "" || trimInput.length < 4) {
       Alert.alert("Invalid Input", "Please Correct input");
     } else {
       const payload = {
-        title: appState.inputValue,
+        title: todoName,
         complete: false,
-        id: appState.todos.length + 1,
+        id: currId + 1,
       };
-      const todos = [...appState.todos, payload];
-      setAppState({ ...appState, todos, inputValue: "" });
+
+      setTimeout(() => {
+        dispatch(addTodo(payload));
+        dispatch(showLoading(false));
+      }, 500);
     }
   };
 
-  const onChangeValue = (val) => {
-    setAppState({ ...appState, inputValue: val });
+  const onSetTodoName = (text) => {
+    dispatch(setTodoName(text));
   };
 
   return (
     <View style={styles.container}>
-      {/* heading  */}
-      {/* <View style={styles.headerSection}>
-        <Heading />
-      </View> */}
-      {/* form add list  */}
       <View style={styles.formSection}>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
           <View
@@ -76,7 +81,7 @@ export default function ToDoScreen() {
               paddingHorizontal: 5,
             }}
           >
-            <Input value={appState.inputValue} onChangeValue={onChangeValue} />
+            <Input value={todoName} onChangeValue={onSetTodoName} />
           </View>
           <View
             style={{
@@ -99,17 +104,12 @@ export default function ToDoScreen() {
 
       {/* list  */}
       <View style={styles.listSection}>
-        <ToDoList
-          todos={appState.todos}
-          deleteTodo={deleteTodo}
-          toggleComplete={toggleComplete}
-          type={appState.type}          
-        />
+        <ToDoList />
       </View>
 
       {/* tabBar */}
       <View style={styles.tabBarSection}>
-        <TabBar type={appState.type} setType={setType} />
+        <TabBar />
       </View>
     </View>
   );

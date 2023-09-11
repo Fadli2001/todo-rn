@@ -4,7 +4,17 @@ import React from "react";
 import todoStyles from "./Todo.style";
 import ToDoButton from "../../../shared/components/ToDoButton";
 
-export default function Todo({ todo, toggleComplete, deleteTodo }) {
+import { useDispatch } from "react-redux";
+import { deleteTodo, toggleComplete } from "../../../store/todo/ToDoAction";
+
+export default function Todo({ todo }) {
+  const dispatch = useDispatch();
+  const onTodoComplete = (idx) => {
+    dispatch(toggleComplete(idx));
+  };
+  const onTodoDelete = (idx) => {
+    dispatch(deleteTodo(idx));
+  };
   return (
     <View style={todoStyles.container}>
       <Text
@@ -18,12 +28,12 @@ export default function Todo({ todo, toggleComplete, deleteTodo }) {
       <View style={todoStyles.buttonWrapper}>
         <ToDoButton
           nameIcon={"checkmark-done-circle-outline"}
-          onPress={() => toggleComplete(todo.id)}
+          onPress={() => onTodoComplete(todo.id)}
           colorIcon={"green"}
         />
         <ToDoButton
           nameIcon={"close-circle-outline"}
-          onPress={() => deleteTodo(todo.id)}
+          onPress={() => onTodoDelete(todo.id)}
           colorIcon={"red"}
         />
       </View>

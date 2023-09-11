@@ -9,15 +9,19 @@ import {
 } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import {login} from "../../../store/login/LoginAction";
 
 import PATH from "../../../navigation/NavigationPath";
 import styles from "./PopupMenu.style";
 
 const PopupMenu = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const onLogout = () => {
-      navigation.navigate(PATH.LOGIN);
+      dispatch(login(false))
+      navigation.replace(PATH.LOGIN)
   }
 
   return (

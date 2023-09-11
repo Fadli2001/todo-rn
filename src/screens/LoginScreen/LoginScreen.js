@@ -7,15 +7,20 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import loginStyles from "./LoginScreen.style";
 import SubmitButton from "../../shared/components/SubmitButton";
+import {showLoading} from "../../store/todo/ToDoAction"
+import {login} from "../../store/login/LoginAction";
+import { useDispatch, useSelector } from "react-redux";
 
 import PATH from "../../navigation/NavigationPath";
 
 export default function ProductForm({ navigation }) {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const isLoggedIn = useSelector((state) => state.LoginReducer.isLoggedIn);
 
   const [inputErrors, setInputErrors] = useState({
     isValidUsername: "",
@@ -33,18 +38,27 @@ export default function ProductForm({ navigation }) {
     return errors;
   };
 
-  const submitLogin = () => {
-    const errors = validateInputs();
+  useEffect(() => {
+    if (isLoggedIn) {
+        dispatch(showLoading(false));
+        navigation.replace(PATH.TODO_LIST);
+    } else {
+        dispatch(showLoading(false));
+    }
+})
 
+  const submitLogin = () => {
+    dispatch(showLoading(true));
+    const errors = validateInputs();
     if (Object.keys(errors).length > 0) {
       setInputErrors(errors);
     } else if (username === "enigma" && password === "123") {
       setTimeout(() => {
-        navigation.navigate(PATH.TODO_LIST);
+        dispatch(login(true))
       }, 1000);
     } else {
-      Alert.alert("Incorrect", "Invalid Username or Password");
-    }
+      Alert.alert("Incorrect", "Invalid Username or Password");      
+    }   
   };
 
   const isErrorView = (errorValidation) => {
